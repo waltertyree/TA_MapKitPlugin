@@ -1,0 +1,43 @@
+//
+//  Created by Walter Tyree on 9/13/10.
+//  Copyright 2010 Tyree Apps, LLC. All rights reserved.
+//
+In order to use the MapKit features of the iPhone, you first must ensure that you have added the 
+MapKit framework to your applicaiton. If you have never added a framework to XCode here is a link
+to instructions from Apple 
+
+http://developer.apple.com/library/ios/#recipes/XcodeRecipes/Linking_to_Libraries_and_Frameworks/Linking_to_Libraries_and_Frameworks.html
+
+If the above link is broken, it comes from the iOS Reference Library, XCode 3 Recipes document
+and the Linking to Libraries and Frameworks chapter.
+
+The first version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
+latitude and longitude notation, rather than simple Street Address/Zip. There seems to
+be a lot of licensing and marketing tied up with geocoding of addresses, so for now we
+are leaving that step up to the user. For US based addresses we like www.geocoder.us but
+there are many other free and paid services available.
+
+[Adapt the Map Callouts Sample Code]
+
+Make the default be Graceland
+
+Pin colors are
+MKPinAnnotationColorRed = 0
+MKPinAnnotationColorGreen = 1
+MKPinAnnotationColorPurple = 2
+
+They are NSUInteger
+
+You should use purple pins for the user defined items. So, we do that. If the person supplies an image then we use it, otherwise, we use a purple pin.
+
+
+http://troybrant.net/blog/2010/01/set-the-zoom-level-of-an-mkmapview/
+
+There is an array and a dictionary in the plist. Each Location has
+
+UIImage* image = [UIImage imageNamed:@"map_button_icon_locate.png"];
+	_geoButton = [[UIBarButtonItem alloc] initWithImage:image
+												  style:UIBarButtonItemStyleBordered
+												 target:self
+												 action:@selector(geoLocationTouched:)];
+	_geoButton.width = image.size.width + 10;
