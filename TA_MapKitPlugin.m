@@ -128,11 +128,11 @@
 	[[self mapView] setShowsUserLocation:![[self mapView] showsUserLocation]]; 
 	if (![[self mapView] isUserLocationVisible] && [[self mapView] showsUserLocation]){
 		UIAlertView *alert = [[UIAlertView alloc]
-							  initWithTitle: @"Location"
-							  message: @"Your location is not on this map. Would you like to zoom the map to include your location?"
+							  initWithTitle:NSLocalizedString(@"Location",@"Title for Alert Box when the user's location is not on the map")
+							  message:NSLocalizedString(@"Your location is not on this map. Would you like to zoom the map to include your location?",@"Body for User Location alert Box")
 							  delegate: self
-							  cancelButtonTitle:@"YES"
-							  otherButtonTitles:@"NO",nil];
+							  cancelButtonTitle:NSLocalizedString(@"YES",@"YES")
+							  otherButtonTitles:NSLocalizedString(@"NO",@"NO"),nil];
 		[alert show];
 		[alert release];
 		

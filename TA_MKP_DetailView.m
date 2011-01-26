@@ -32,7 +32,17 @@
 }
 */
 -(void)viewWillAppear:(BOOL)animated{
-	NSString *bodyHTML = [[self mapAnnotation] detailHTML];
+	NSString *bodyHTML;
+	NSStringEncoding encoding;
+	NSError* error;
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"TA_MKP_Template" ofType:@"html"]; 
+	NSString* myString = [NSString stringWithContentsOfFile:filePath usedEncoding:&encoding error:&error];
+	if ([myString length] != 0) {
+		bodyHTML = [myString stringByReplacingOccurrencesOfString:@"[[detailHTML]]" withString:[[self mapAnnotation] detailHTML]];
+	} else {
+		bodyHTML = [[self mapAnnotation] detailHTML];
+	}
+
 	[webView loadHTMLString:bodyHTML baseURL:nil];	
 }
 /*
