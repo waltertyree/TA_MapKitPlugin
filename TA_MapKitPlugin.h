@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 
 
-@interface TA_MapKitPlugin : UIViewController <MKMapViewDelegate>{
+@interface TA_MapKitPlugin : UIViewController <MKMapViewDelegate, UIAlertViewDelegate>{
 	MKMapView *_mapView;
 	UIBarButtonItem *_locationButton;
 	NSMutableArray *_mapViewAnnotations;

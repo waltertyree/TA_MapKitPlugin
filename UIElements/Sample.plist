@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>New item</key>
+	<dict>
+		<key>Title</key>
+		<string>Map View Demo</string>
+		<key>ShortTitle</key>
+		<string>Maps</string>
+		<key>TabImageName</key>
+		<string>103-map.png</string>
+		<key>customViewControllerClass</key>
+		<string>TA_MapKitPlugin</string>
+		<key>start_latitude</key>
+		<real>35.12</real>
+		<key>pinImage</key>
+		<string>greentest.png</string>
+		<key>start_longitude</key>
+		<real>-90.01000000000001</real>
+		<key>start_view</key>
+		<integer>12000</integer>
+		<key>Places</key>
+		<array>
+			<dict>
+				<key>placeName</key>
+				<string>Sun Studios</string>
+				<key>subTitle</key>
+				<string>Open Year Round</string>
+				<key>latitude</key>
+				<real>35.138904</real>
+				<key>longitude</key>
+				<real>-90.03760699999999</real>
+			</dict>
+			<dict>
+				<key>placeName</key>
+				<string>Memphis International Airport</string>
+				<key>subTitle</key>
+				<string>MEM</string>
+				<key>detail_HTML</key>
+				<string>&lt;h1&gt;Right in Elvis&apos; Backyard&lt;/h1&gt;&lt;p&gt;This airport has the great fortune of being only one exit from Graceland on the highway&lt;/p&gt;</string>
+				<key>latitude</key>
+				<real>35.0611</real>
+				<key>longitude</key>
+				<real>-89.985</real>
+			</dict>
+			<dict>
+				<key>placeName</key>
+				<string>Peabody Hotel</string>
+				<key>subTitle</key>
+				<string>Home of Ducks</string>
+				<key>detail_HTML</key>
+				<string>&lt;h1&gt;Quack Quack&lt;/h1&gt;&lt;p&gt;People come from miles around to see these ducks&lt;/p&gt;</string>
+				<key>latitude</key>
+				<real>35.142644</real>
+				<key>longitude</key>
+				<real>-90.051711</real>
+			</dict>
+			<dict>
+				<key>placeName</key>
+				<string>Graceland</string>
+				<key>subTitle</key>
+				<string>Elvis&apos; House</string>
+				<key>detail_HTML</key>
+				<string>&lt;h1&gt;Graceland is for EVERYONE!&lt;/h1&gt;&lt;p&gt;Though Elvis buought this house, he added on a lot of things&lt;/p&gt;</string>
+				<key>latitude</key>
+				<real>35.046872</real>
+				<key>longitude</key>
+				<real>-90.024970999</real>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>
