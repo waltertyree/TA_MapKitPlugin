@@ -42,12 +42,13 @@
 		[tempPlace release];
 	}
 	if ([tabInfo objectForKey:@"start_latitude"]) {
-		
+		[self setInitialLatitude:[tabInfo objectForKey:@"start_latitude"]];
 	}else {
 		[self setInitialLatitude:[NSNumber numberWithFloat:35.047]];
 	}
 
 	if ([tabInfo objectForKey:@"start_longitude"]) {
+		[self setInitialLongitude:[tabInfo objectForKey:@"start_longitude"]];
 		
 	}else {
 		[self setInitialLongitude:[NSNumber numberWithFloat:-90.025]];
