@@ -23,6 +23,8 @@
 @synthesize mapView;
 @synthesize mapViewAnnotations;
 
+@synthesize locationList;
+
 @synthesize initialMapWidth;
 @synthesize initialLatitude;
 @synthesize initialLongitude;
@@ -41,6 +43,10 @@
 		[[self mapViewAnnotations] addObject:tempPlace];
 		[tempPlace release];
 	}
+	NSSortDescriptor *theTitleSorter = [[NSSortDescriptor alloc] initWithKey:@"theTitle" ascending:YES];
+	[[self mapViewAnnotations] sortUsingDescriptors:[NSArray arrayWithObjects:theTitleSorter,nil]];
+	[theTitleSorter release];
+
 	if ([tabInfo objectForKey:@"start_latitude"]) {
 		[self setInitialLatitude:[tabInfo objectForKey:@"start_latitude"]];
 	}else {
@@ -60,21 +66,38 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	// "Segmented" control to the right
+	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
+											[NSArray arrayWithObjects:
+											 [UIImage imageNamed:@"locationList.png"],
+											 [UIImage imageNamed:@"iconLocation.png"],
+											 nil]];
+	[segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+	segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+	segmentedControl.momentary = YES;
 	
+	
+	UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+    [segmentedControl release];
+    
+	self.navigationItem.rightBarButtonItem = segmentBarItem;
+    [segmentBarItem release];
 	//Setting up the crosshairs button to use to toggle on the user location
-	UIImage* image = [UIImage imageNamed:@"iconLocation.png"];
+	/*UIImage* image = [UIImage imageNamed:@"iconLocation.png"];
 	_locationButton = [[UIBarButtonItem alloc] initWithImage:image
 												  style:UIBarButtonItemStyleBordered
 												 target:self
 												 action:@selector(locationButtonTouched:)];
 	_locationButton.width = image.size.width + 10;
 	[[self navigationItem] setRightBarButtonItem:_locationButton];
-	
+	*/
 	//Set up the default mapview
 	[[self mapView] setDelegate:self]; 
 	[[self mapView] setMapType:MKMapTypeStandard];   // also MKMapTypeSatellite or MKMapTypeHybrid
 	//CLLocationCoordinate2D *defaultCenter = CLLocationCoordinate2DMake(35.046872, -90.024971);
 	[[self mapView] addAnnotations:[self mapViewAnnotations]];
+	
 	
 	if ([self initialMapWidth] != nil) {
 	MKCoordinateRegion tempRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([[self initialLatitude] doubleValue], [[self initialLongitude] doubleValue])
@@ -83,8 +106,34 @@
 	}else {
 		[self zoomToFitMapAnnotations];
 	}
+	[[self locationList] reloadData];
 	
-	
+}
+- (IBAction)segmentAction:(id)sender
+{
+	// The segmented control was clicked, handle it here 
+	UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+	//NSLog(@"Segment clicked: %d", segmentedControl.selectedSegmentIndex);
+	if ([segmentedControl selectedSegmentIndex] == 0) {
+		if ([[self locationList] isHidden]) {
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.3];
+		[[self locationList] setHidden:NO];
+			[UIView commitAnimations];
+		}else {
+
+			[UIView beginAnimations:nil context:NULL];
+			[UIView setAnimationDuration:0.3];
+			[[self locationList] setHidden:YES];
+			[UIView commitAnimations];
+			
+		}
+
+		
+	} else {
+		[self performSelector:@selector(locationButtonTouched:) withObject:sender];
+	}
 }
 #pragma mark -
 #pragma mark User Interaction Functions
@@ -222,6 +271,55 @@
 		default:
 			break;
 	}
+}
+#pragma mark -
+#pragma mark UITable View Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+		//They tapped on one of the map annotations. We want to:
+	//2) Hide the tableview
+	[tableView setHidden:YES];
+	
+	
+	//1) Center that annotation on the map
+	TA_MKP_Annotation *tempAnnotation;
+	tempAnnotation = [[self mapViewAnnotations] objectAtIndex:[indexPath row]];
+	[[self mapView] setCenterCoordinate:[tempAnnotation coordinate] 
+							   animated:YES];
+	
+
+	//4) show the Callout for the annotation
+	[[self mapView] selectAnnotation:tempAnnotation animated:YES];
+	//3) Deselect the selected row
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+
+	
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+   //We are reading from the map annotations view
+   //We want to make a generic cell with an arrow detail view
+   //We want to put in the name
+   //We want to add the subtitle but comment that out
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ALocation"];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ALocation"] autorelease];
+    }
+	//This line was changed for iPhone 3.0
+	//[[UIDevice currentDevice] systemVersion]);
+	//cell.text = [trialArray objectAtIndex:indexPath.row]; //but cell.text is depreciated
+    [cell.textLabel setText:[[[self mapViewAnnotations] objectAtIndex:indexPath.row] theTitle]];	
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	//We want as many rows in our table as there are items in the mapview annotations
+	TA_MKP_Annotation *tempAnnotation; 
+	for (tempAnnotation in [self mapViewAnnotations]) {
+		NSLog(@"%@",[tempAnnotation theTitle]);
+			  }
+			  return [[self mapViewAnnotations] count];
+
 }
 
 #pragma mark -

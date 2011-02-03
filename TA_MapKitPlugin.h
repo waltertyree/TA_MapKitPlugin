@@ -10,10 +10,12 @@
 #import <MapKit/MapKit.h>
 
 
-@interface TA_MapKitPlugin : UIViewController <MKMapViewDelegate, UIAlertViewDelegate>{
+@interface TA_MapKitPlugin : UIViewController <MKMapViewDelegate, UIAlertViewDelegate, UITableViewDelegate>{
 	MKMapView *_mapView;
 	UIBarButtonItem *_locationButton;
 	NSMutableArray *_mapViewAnnotations;
+	
+	UITableView *_locationList;
 	
 	//These are variables to store information that TapLynx gives us
 	NSNumber *_initialLatitude;
@@ -23,9 +25,9 @@
 
 }
 
-
+@property (nonatomic,retain) IBOutlet UITableView *locationList;
 @property (nonatomic,retain) IBOutlet MKMapView *mapView;
-@property (nonatomic,retain) NSMutableArray *mapViewAnnotations;
+@property (nonatomic,retain) IBOutlet NSMutableArray *mapViewAnnotations;
 @property (nonatomic,retain) NSNumber *initialLatitude;
 @property (nonatomic,retain) NSNumber *initialLongitude;
 @property (nonatomic,retain) NSNumber *initialMapWidth;
