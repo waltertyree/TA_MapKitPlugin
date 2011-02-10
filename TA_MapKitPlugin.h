@@ -12,7 +12,7 @@
 
 @interface TA_MapKitPlugin : UIViewController <MKMapViewDelegate, UIAlertViewDelegate, UITableViewDelegate>{
 	MKMapView *_mapView;
-	UIBarButtonItem *_locationButton;
+	UIBarButtonItem *_navControls;
 	NSMutableArray *_mapViewAnnotations;
 	
 	UITableView *_locationList;

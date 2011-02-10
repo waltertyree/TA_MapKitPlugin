@@ -65,7 +65,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    [super viewDidLoad];
+   
 	// "Segmented" control to the right
 	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
 											[NSArray arrayWithObjects:
@@ -78,11 +78,11 @@
 	segmentedControl.momentary = YES;
 	
 	
-	UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+	_navControls = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
     [segmentedControl release];
     
-	self.navigationItem.rightBarButtonItem = segmentBarItem;
-    [segmentBarItem release];
+	[[self navigationItem] setRightBarButtonItem:_navControls];
+   
 	//Setting up the crosshairs button to use to toggle on the user location
 	/*UIImage* image = [UIImage imageNamed:@"iconLocation.png"];
 	_locationButton = [[UIBarButtonItem alloc] initWithImage:image
@@ -107,7 +107,7 @@
 		[self zoomToFitMapAnnotations];
 	}
 	[[self locationList] reloadData];
-	
+	 [super viewDidLoad];
 }
 - (IBAction)segmentAction:(id)sender
 {
@@ -236,9 +236,10 @@
 			MKPinAnnotationView* pin_reuse = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:TA_MKP_Pin];
 			if (!pin_reuse) {
 				MKPinAnnotationView *pin = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation
-																	 reuseIdentifier:TA_MKP_Pin] autorelease];
+																			reuseIdentifier:TA_MKP_Pin] autorelease];
 				[pin setCanShowCallout:YES];
-				[self addButtontToCalloutIfNeeded:pin];					[pin setOpaque:NO];
+				[self addButtontToCalloutIfNeeded:pin];		
+				[pin setOpaque:NO];
 				return pin;
 			} else {
 				[pin_reuse setAnnotation:annotation];
@@ -303,12 +304,13 @@
    //We want to add the subtitle but comment that out
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ALocation"];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"ALocation"] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ALocation"] autorelease];
     }
 	//This line was changed for iPhone 3.0
 	//[[UIDevice currentDevice] systemVersion]);
 	//cell.text = [trialArray objectAtIndex:indexPath.row]; //but cell.text is depreciated
-    [cell.textLabel setText:[[[self mapViewAnnotations] objectAtIndex:indexPath.row] theTitle]];	
+    [cell.textLabel setText:[[[self mapViewAnnotations] objectAtIndex:indexPath.row] theTitle]];
+	[cell.detailTextLabel setText:[[[self mapViewAnnotations] objectAtIndex:indexPath.row] theSubtitle]];
     return cell;
 }
 
@@ -348,7 +350,7 @@
     [[self mapView] setDelegate:nil];
 	[_mapView release];
 	
-	[_locationButton release];
+	[_navControls release];
 	
 	[super dealloc];
 	

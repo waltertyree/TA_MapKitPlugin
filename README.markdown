@@ -10,14 +10,14 @@ to instructions from Apple](http://developer.apple.com/library/ios/#recipes/Xcod
 If the above link is broken, it comes from the iOS Reference Library, XCode 3 Recipes document
 and the Linking to Libraries and Frameworks chapter.
 
-This *second* version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
+This *third* version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
 latitude and longitude notation, rather than simple Street Address/Zip. There seems to
 be a lot of licensing and marketing tied up with geocoding of addresses, so for now we
 are leaving that step up to the user. For US based addresses we like www.geocoder.us but
 there are many other free and paid services available.
 
 ##What's New in this Version
-We have added a table view that lists all of the Map Annotations. The list will appear when the user taps a new button we have added to the Navigation Bar. \(Yet again we prove that we are not graphic designers by the quality of the button icon\). The tabview appears and lists the place names alphabetically. When the user taps one of the place names, the map will center on that Map Annotation's icon and show the callout associated with the annotation.
+We have added a subtitle to the tableview that displays the annotations. The list will appear when the user taps a new button we have added to the Navigation Bar. \(Yet again we prove that we are not graphic designers by the quality of the button icon\). The tabview appears and lists the place names alphabetically. When the user taps one of the place names, the map will center on that Map Annotation's icon and show the callout associated with the annotation. Also, we've discovered that decimal precision on latitude and longitude seems to matter. [Here is a post at our blog about position decimal precision](http://blog.tyreeapps.com/2011/02/mapkit-latlong-errors-and-decimal.html)
 
 ##NGConfig.plist Configurations
 As with any other TapLynx plugin, this is designed so that the user can get a usable product using only the NGConfig.plist file. The main map layout and configuration is done at the top level of the Dictionary. All of the places to be represented on the map are done within an array with a key of _Places_. There is a plist snippet titled _TA\_MKP\_plist.plist_ included in the project which has a sample dictionary that you can paste into code to view the sample data. _Important_ if you do not want to use a particular key make sure to delete the whole key, don\'t just leave it with a blank value.
