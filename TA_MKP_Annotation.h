@@ -32,6 +32,7 @@
 
 
 -(id)initWithDictionary:(NSDictionary *)aPlace;
+-(UIImage *)makeImage;
 - (CLLocationCoordinate2D)coordinate;
 - (NSString *)title;
 - (NSString *)subtitle;

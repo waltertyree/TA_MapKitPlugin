@@ -39,14 +39,18 @@
 -(void)setPinImage:(NSString *)theName{
 	[pinImage autorelease];
 	pinImage = [theName retain];
-	NSLog(@"%@",pinImage);
+	NSLog(@"The imagename for the pin will be:%@",pinImage);
 	UIImage *tempImage = [UIImage imageNamed:pinImage];
 	[self setImage:tempImage];
-	[tempImage release];
+	
 }
 
-
-
+//This is added because we think that in low memory situations we are
+//dumping the pin images. So, now we make a new one each time.
+-(UIImage*)makeImage{
+    UIImage *tempImage = [UIImage imageNamed:pinImage]; 
+    return tempImage;
+}
 #pragma mark -
 #pragma mark MKAnnotation Protocol Methods
 - (CLLocationCoordinate2D)coordinate;
@@ -66,6 +70,12 @@
 - (NSString *)subtitle
 {
     return [self theSubtitle];
+}
+
+- (void)dealloc
+{
+    [image release];
+    [super dealloc];
 }
 
 @end

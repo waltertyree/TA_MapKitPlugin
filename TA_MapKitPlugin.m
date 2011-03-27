@@ -65,7 +65,6 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-   
 	// "Segmented" control to the right
 	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
 											[NSArray arrayWithObjects:
@@ -100,8 +99,10 @@
 	
 	
 	if ([self initialMapWidth] != nil) {
-	MKCoordinateRegion tempRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([[self initialLatitude] doubleValue], [[self initialLongitude] doubleValue])
-																	   ,[[self initialMapWidth] doubleValue],[[self initialMapWidth] doubleValue]); 
+        CLLocationCoordinate2D centerPoint;
+        centerPoint.latitude = [[self initialLatitude] doubleValue];
+        centerPoint.longitude = [[self initialLongitude] doubleValue];
+	MKCoordinateRegion tempRegion = MKCoordinateRegionMakeWithDistance(centerPoint,[[self initialMapWidth] doubleValue],[[self initialMapWidth] doubleValue]); 
 	[[self mapView] setRegion:[[self mapView] regionThatFits:tempRegion]];
 	}else {
 		[self zoomToFitMapAnnotations];
@@ -204,6 +205,7 @@
 #pragma mark -
 #pragma mark MKMapView Delegate Methods
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id)annotation{
+    
 	//If the Annotation is the user location (the little blue circle) let the iPhone handle it
 	if ([annotation isKindOfClass:[MKUserLocation class]])
 		return nil;
@@ -214,6 +216,7 @@
 		//MKAnnotationView* pinView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:TA_MKP_AnnotationIdentifier];
 		//If there is no annotation to reuse, make anew one
 		//if (!pinView) {
+        NSLog(@"The image title is: %@ and the length is: %d",[annotation pinImage],[[annotation pinImage]length]);
 		if ([[annotation pinImage] length] !=0) {
 			MKAnnotationView* av_reuse = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:TA_MKP_noPin];
 			if (!av_reuse) {
@@ -223,12 +226,12 @@
 				[av setCanShowCallout:YES];	
 				[self addButtontToCalloutIfNeeded:av];
 				[av setOpaque:NO];
-				[av setImage:[annotation image]];
+                [av setImage:[annotation makeImage]];
 				return av;
 				 } else {
 					 [av_reuse setAnnotation:annotation];
-					 [av_reuse setImage:[annotation image]];
-					 [av_reuse setCanShowCallout:YES];
+                     [av_reuse setImage:[annotation makeImage]];
+                     [av_reuse setCanShowCallout:YES];
 					 [self addButtontToCalloutIfNeeded:av_reuse];					 
 					 return av_reuse;
 				 }
@@ -254,7 +257,7 @@
 	return nil;
 }
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-	NSLog(@"%@",[(TA_MKP_Annotation *)[view annotation] detailHTML]);
+	NSLog(@"The detailHTML for this annotation is:%@",[(TA_MKP_Annotation *)[view annotation] detailHTML]);
 	TA_MKP_DetailView *detailView = [[TA_MKP_DetailView alloc] init];
 	[detailView setMapAnnotation:[view annotation]];
 	[[self navigationController] pushViewController:detailView animated:YES];
@@ -318,7 +321,7 @@
 	//We want as many rows in our table as there are items in the mapview annotations
 	TA_MKP_Annotation *tempAnnotation; 
 	for (tempAnnotation in [self mapViewAnnotations]) {
-		NSLog(@"%@",[tempAnnotation theTitle]);
+		NSLog(@"The name to be displayed in the TableView is:%@",[tempAnnotation theTitle]);
 			  }
 			  return [[self mapViewAnnotations] count];
 
