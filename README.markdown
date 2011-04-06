@@ -10,13 +10,17 @@ to instructions from Apple](http://developer.apple.com/library/ios/#recipes/Xcod
 If the above link is broken, it comes from the iOS Reference Library, XCode 3 Recipes document
 and the Linking to Libraries and Frameworks chapter.
 
-This *third* version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
+This *fourth* version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
 latitude and longitude notation, rather than simple Street Address/Zip. There seems to
 be a lot of licensing and marketing tied up with geocoding of addresses, so for now we
 are leaving that step up to the user. For US based addresses we like www.geocoder.us but
 there are many other free and paid services available.
 
 ##What's New in this Version
+Thanks to user Georg for showing us that there was an error in the way the custom pin images were rendering. We have fixed that issue and describe it in detail [on our blog.](http://blog.tyreeapps.com/2011/04/mapkit-custom-images-and-offset-issues.html) Additionally, we have discovered and repaired a bug that would cause the plugin to crash sometimes after the app had been sent to the background and then brought to the foreground.
+
+##Features
+This plugin has two buttons at the top. One button will display a list of the locations. The other button will toggle adding and removing the user's location from the map.
 We have added a subtitle to the tableview that displays the annotations. The list will appear when the user taps a new button we have added to the Navigation Bar. \(Yet again we prove that we are not graphic designers by the quality of the button icon\). The tabview appears and lists the place names alphabetically. When the user taps one of the place names, the map will center on that Map Annotation's icon and show the callout associated with the annotation. Also, we've discovered that decimal precision on latitude and longitude seems to matter. [Here is a post at our blog about position decimal precision](http://blog.tyreeapps.com/2011/02/mapkit-latlong-errors-and-decimal.html)
 
 ##NGConfig.plist Configurations

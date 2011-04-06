@@ -227,6 +227,8 @@
 				[self addButtontToCalloutIfNeeded:av];
 				[av setOpaque:NO];
                 [av setImage:[annotation makeImage]];
+
+                
 				return av;
 				 } else {
 					 [av_reuse setAnnotation:annotation];
