@@ -1,7 +1,7 @@
 #Readme for TA\_MapKitPlugin for TapLynx
 
 #####Created by Walter Tyree on 9/13/10.
-#####Copyright 2010 Tyree Apps, LLC. All rights reserved.
+#####Copyright 2010-2012 Tyree Apps, LLC. All rights reserved.
 
 In order to use the MapKit features of the iPhone, you first must ensure that you have added the 
 MapKit framework to your applicaiton. If you have never added a framework to XCode here is a [link
@@ -10,14 +10,14 @@ to instructions from Apple](http://developer.apple.com/library/ios/#recipes/Xcod
 If the above link is broken, it comes from the iOS Reference Library, XCode 3 Recipes document
 and the Linking to Libraries and Frameworks chapter.
 
-This *fourth* version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
+This *fifth* version of the Tyree Apps MapKit plugin for TapLynx requires locations to be in
 latitude and longitude notation, rather than simple Street Address/Zip. There seems to
 be a lot of licensing and marketing tied up with geocoding of addresses, so for now we
 are leaving that step up to the user. For US based addresses we like www.geocoder.us but
 there are many other free and paid services available.
 
 ##What's New in this Version
-Thanks to user Georg for showing us that there was an error in the way the custom pin images were rendering. We have fixed that issue and describe it in detail [on our blog.](http://blog.tyreeapps.com/2011/04/mapkit-custom-images-and-offset-issues.html) Additionally, we have discovered and repaired a bug that would cause the plugin to crash sometimes after the app had been sent to the background and then brought to the foreground.
+This version adds a script to transform a csv file of places and insert it into an NGConfig.plist. See the section below called *Spreadsheets* for instructions.
 
 ##Features
 This plugin has two buttons at the top. One button will display a list of the locations. The other button will toggle adding and removing the user's location from the map.
@@ -51,6 +51,15 @@ The detail screen of the plugin has a nib file to help with customization. The n
 
 The HTML from the detailHTML string that is associated with a particular location is put into the body of an html template document. The html template document is called _TA\_MKP\_Template_. You can modify the CSS and add custom links, footers and the like by changing that template document.
 
+##Spreadsheets
+There is now a folder called *Maintenance* included in this repository. Within that folder is a Numbers spreadsheet that can be used to maintain longer lists of places to be used with the plugin. In order to use the spreadsheet simply follow the examples in the template. Then Export the file as a CSV and *be sure to set the encoding to UTF-8*. Failure to set the encoding will cause the detail\_HTML field to go all crazy and break the plugin.
+
+Once the data is exported execute the ruby script *PlacesParse.rb* with two arguments: the path of the CSV file and the path of the NGConfig.plist. When I am doing this, I place the ruby script, the csv and a copy of the NGConfig into a folder and then I navigate to that folder in Terminal.app and execute a command like this:
+  ruby PlacesParse.rb Places.csv NGConfig.plist
+This will format the Places.csv data correctly and insert it into the NGConfig.plist file, replacing whatever was in the Places array of the NGConfig.plist file.
+
+When using the spreadsheet the *subTitle*, *pinImage*, and *detail\_HTML* are optional fields. Also, the spreadsheet only updates the Places Array. Other updates should be done with the instructions above.
+
 ##Internationalization
 The Alert box that is displayed if the user tries to show their location but their location will not fit in the current window is localizable. When translating the strings you need to account for these strings:  
     "Location"
@@ -62,5 +71,8 @@ A little trick with localizations. You can change even these phrases in English 
     "YES" = "OK";
 to the file.
 
+##Older Versions
+*Version 4*
+Thanks to user Georg for showing us that there was an error in the way the custom pin images were rendering. We have fixed that issue and describe it in detail [on our blog.](http://blog.tyreeapps.com/2011/04/mapkit-custom-images-and-offset-issues.html) Additionally, we have discovered and repaired a bug that would cause the plugin to crash sometimes after the app had been sent to the background and then brought to the foreground.
 ##Copyright and Notes
-This plugin is copyright 2011 by Tyree Apps, LLC. You may incorporate it into your projects and modify it as you see fit. We do not require attribution, but there is always karma to consider. This plugin uses icons from the Glyphish icon set which Tyree Apps, LLC has purchased and licensed. You should go over to [the Glyphish website](http://www.glyphish.com) to make sure you are comfortable with the licensing terms.
+This plugin is copyright 2012 by Tyree Apps, LLC. You may incorporate it into your projects and modify it as you see fit. We do not require attribution, but there is always karma to consider. This plugin uses icons from the Glyphish icon set which Tyree Apps, LLC has purchased and licensed. You should go over to [the Glyphish website](http://www.glyphish.com) to make sure you are comfortable with the licensing terms.
