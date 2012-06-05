@@ -18,12 +18,11 @@ end
 
 finalFile += printPlistHeader
 
-File.open(ARGV[0]) do |f|
   CSV.foreach(f) do |row|  
   if !row[0].to_s.empty? && row[0] != 'Place Title'
       finalFile += "<dict><key>placeName</key>\n"
       finalFile += "<string>" + CGI.escapeHTML(row[0]) + "</string>\n"
-      if checkNil(row[1])
+      if !row[1].to_s.empty?
         finalFile += "<key>subTitle</key>\n"
         finalFile += "<string>" + CGI.escapeHTML(row[1]) + "</string>\n"
       end
@@ -43,7 +42,7 @@ File.open(ARGV[0]) do |f|
       finalFile += "</dict>\n"
     end
 	end
-end
+
 
 finalFile += printPlistFooter
 
@@ -51,6 +50,10 @@ finalFile += printPlistFooter
 plistFile = File.read(ARGV[1])
  plistFile.sub!(/<key>Places.+?<\/array>/m, finalFile)
 
- File.write(ARGV[1],plistFile)
+
+ File.open(ARGV[1],'w') do |fileToWrite|
+   fileToWrite.puts plistFile
+ end
+
 
 
