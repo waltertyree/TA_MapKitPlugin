@@ -18,7 +18,7 @@ end
 
 finalFile += printPlistHeader
 
-  CSV.foreach(f) do |row|  
+  CSV.foreach(ARGV[0]) do |row|  
   if !row[0].to_s.empty? && row[0] != 'Place Title'
       finalFile += "<dict><key>placeName</key>\n"
       finalFile += "<string>" + CGI.escapeHTML(row[0]) + "</string>\n"
